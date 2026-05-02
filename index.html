@@ -13,9 +13,10 @@
     margin: 0 auto;
     min-height: 100vh;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
-  /* Top Nav */
+  /* ── Sticky Top Nav ───────────────────────────── */
   .top-nav {
     position: fixed;
     top: 0;
@@ -35,51 +36,50 @@
     background: #fff;
     box-shadow: 0 1px 0 rgba(0,0,0,0.08);
   }
-  .nav-arrow svg, .nav-right svg {
-    color: #fff;
-    width: 24px;
-    height: 24px;
-    transition: color 0.25s;
-  }
-  .top-nav.scrolled .nav-arrow svg,
-  .top-nav.scrolled .nav-right svg {
-    color: #1c1e21;
-  }
+  .nav-arrow svg { color: #fff; width: 22px; height: 22px; transition: color 0.25s; }
+  .top-nav.scrolled .nav-arrow svg { color: #1c1e21; }
+  .nav-right { display: flex; gap: 16px; align-items: center; }
+  .nav-right svg { color: #fff; width: 22px; height: 22px; transition: color 0.25s; }
+  .top-nav.scrolled .nav-right svg { color: #1c1e21; }
   .nav-name {
     font-size: 17px;
     font-weight: 700;
     color: #1c1e21;
     opacity: 0;
     transition: opacity 0.3s ease;
+    white-space: nowrap;
     margin-left: 10px;
   }
   .top-nav.scrolled .nav-name { opacity: 1; }
+  .nav-left { display: flex; align-items: center; }
 
-  /* Banner */
+  /* ── Banner ───────────────────────────────────── */
   .banner-wrap {
     position: relative;
     height: 210px;
     overflow: hidden;
+    background: #1877f2;
+    margin-top: 0;
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
   }
   .banner-wrap canvas { width: 100%; height: 100%; display: block; }
 
-  /* Profile Card */
+  /* ── Profile card ─────────────────────────────── */
   .profile-card {
     background: #fff;
     padding-bottom: 12px;
     position: relative;
+    margin-top: -70px;           /* ← Increased to create more overlap */
     border-radius: 16px;
-    margin-top: -60px; /* Important for overlap */
   }
 
   .avatar-name-row {
     display: flex;
     align-items: flex-end;
     padding: 0 16px;
-    margin-top: -46px; /* Controls how much avatar overlaps banner */
-    gap: 12px;
+    margin-top: -46px;           /* ← This controls how high the avatar sits */
+    gap: 10px;
     position: relative;
     z-index: 10;
   }
@@ -88,27 +88,36 @@
     width: 92px;
     height: 92px;
     border-radius: 50%;
-    border: 5px solid #fff; /* Thicker white border */
+    border: 4px solid #fff;
     overflow: hidden;
     flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    background: #c0c0c0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
   }
+  .avatar-main canvas { width: 92px; height: 92px; display: block; }
 
   .name-meta {
-    padding-bottom: 8px;
+    padding-bottom: 6px;
     flex: 1;
+    min-width: 0;
   }
   .profile-name {
-    font-size: 21px;
+    font-size: 20px;
     font-weight: 700;
     color: #1c1e21;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .profile-meta {
-    font-size: 14px;
-    color: #65676b;
+    font-size: 13px;
+    margin-top: 2px;
   }
+  .profile-meta .count { font-weight: 700; color: #1c1e21; }
+  .profile-meta .label { font-weight: 400; color: #65676b; }
 
-  /* Buttons */
+  /* ── Buttons ──────────────────────────────────── */
   .action-row {
     display: flex;
     gap: 8px;
@@ -116,18 +125,18 @@
   }
   .btn-primary {
     flex: 1; background: #1877f2; color: #fff; border: none;
-    border-radius: 8px; padding: 10px; font-size: 15px;
+    border-radius: 8px; padding: 9px 12px; font-size: 15px;
     font-weight: 600; cursor: pointer;
     display: flex; align-items: center; justify-content: center; gap: 6px;
   }
   .btn-secondary {
     flex: 1; background: #e4e6eb; color: #1c1e21; border: none;
-    border-radius: 8px; padding: 10px; font-size: 15px;
+    border-radius: 8px; padding: 9px 12px; font-size: 15px;
     font-weight: 600; cursor: pointer;
     display: flex; align-items: center; justify-content: center; gap: 6px;
   }
 
-  /* Other sections */
+  /* ── Other sections ───────────────────────────── */
   .section { background: #fff; padding: 16px; margin-top: 12px; border-radius: 12px; }
   .section-title { font-size: 17px; font-weight: 700; color: #1c1e21; margin-bottom: 12px; }
 </style>
@@ -136,13 +145,13 @@
 
 <!-- Fixed Top Nav -->
 <div class="top-nav" id="topNav">
-  <div style="display: flex; align-items: center;">
+  <div class="nav-left">
     <div class="nav-arrow">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
     </div>
     <span class="nav-name">Jeric Austria</span>
   </div>
-  <div style="display: flex; gap: 16px;">
+  <div class="nav-right">
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
   </div>
@@ -162,11 +171,12 @@
     <div class="name-meta">
       <div class="profile-name">Jeric Austria</div>
       <div class="profile-meta">
-        2 friends · 1 post
+        <span class="count">2</span><span class="label"> friends</span>
+        &nbsp;·&nbsp;
+        <span class="count">1</span><span class="label"> post</span>
       </div>
     </div>
   </div>
-
   <div class="action-row">
     <button class="btn-primary">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
@@ -176,6 +186,64 @@
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
       Message
     </button>
+  </div>
+  <div class="tabs">
+    <button class="tab">All</button>
+    <button class="tab inactive">Photos</button>
+    <button class="tab inactive">Reels</button>
+  </div>
+</div>
+
+<!-- The rest of your original sections remain unchanged -->
+<div class="section">
+  <div class="section-title">Personal details</div>
+  <div class="detail-row">
+    <div class="detail-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="#65676b"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </div>
+    Male
+  </div>
+</div>
+
+<!-- Friends and Posts sections (kept from original) -->
+<div class="section">
+  <div class="friends-header">
+    <div class="section-title" style="margin-bottom:0">Friends</div>
+    <span class="see-all">See all</span>
+  </div>
+  <div class="friends-row">
+    <div class="friend-card">
+      <div class="friend-avatar"><canvas id="friend1" width="60" height="60"></canvas></div>
+      <div class="friend-name">Bjorn Astrid</div>
+    </div>
+    <div class="friend-card">
+      <div class="friend-avatar"><canvas id="friend2" width="60" height="60"></canvas></div>
+      <div class="friend-name">Kurt Valerio</div>
+    </div>
+  </div>
+</div>
+
+<div class="posts-label">
+  <div class="section-title">All posts</div>
+</div>
+
+<div class="post-card">
+  <div class="post-header">
+    <div class="post-avatar"><canvas id="postAvatar1" width="40" height="40"></canvas></div>
+    <div class="post-meta">
+      <div>
+        <span class="post-author">Jeric Austria</span>
+        <span class="post-action"> updated his profile picture.</span>
+      </div>
+      <div class="post-date">
+        Dec 27, 2016 ·
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="#65676b"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+      </div>
+    </div>
+    <div class="post-dots">···</div>
+  </div>
+  <div class="post-image-wrap">
+    <canvas id="postImage1"></canvas>
   </div>
 </div>
 
@@ -190,27 +258,35 @@ window.addEventListener('scroll', () => {
   }
 }, { passive: true });
 
-// Avatar
+// Avatar painter
 function drawAbstractAvatar(canvas, seed) {
   const ctx = canvas.getContext('2d');
   const w = canvas.width, h = canvas.height;
   const hue = (seed * 73 + 30) % 360;
+  const hue2 = (hue + 140) % 360;
   const grad = ctx.createLinearGradient(0, 0, w, h);
   grad.addColorStop(0, `hsl(${hue}, 65%, 52%)`);
-  grad.addColorStop(1, `hsl(${(hue + 140) % 360}, 58%, 38%)`);
+  grad.addColorStop(1, `hsl(${hue2}, 58%, 38%)`);
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, w, h);
   ctx.fillStyle = 'rgba(255,255,255,0.30)';
   ctx.beginPath();
   ctx.arc(w * 0.5, h * 0.34, w * 0.19, 0, Math.PI * 2);
   ctx.fill();
+  ctx.beginPath();
+  ctx.ellipse(w * 0.5, h * 0.76, w * 0.30, h * 0.24, 0, 0, Math.PI * 2);
+  ctx.fill();
 }
 drawAbstractAvatar(document.getElementById('avatarMain'), 5);
+drawAbstractAvatar(document.getElementById('friend1'), 17);
+drawAbstractAvatar(document.getElementById('friend2'), 34);
+drawAbstractAvatar(document.getElementById('postAvatar1'), 5);
 
 // Banner
 (function () {
   const canvas = document.getElementById('bannerCanvas');
-  canvas.width = 480;
+  const wrap = canvas.parentElement;
+  canvas.width = wrap.offsetWidth || 480;
   canvas.height = 210;
   const ctx = canvas.getContext('2d');
   const w = canvas.width, h = canvas.height;
@@ -221,27 +297,43 @@ drawAbstractAvatar(document.getElementById('avatarMain'), 5);
   sky.addColorStop(1, '#2e6fc4');
   ctx.fillStyle = sky; ctx.fillRect(0, 0, w, h);
 
-  // Stars
   ctx.fillStyle = 'rgba(255,255,255,0.85)';
-  [[0.10,0.12],[0.25,0.08],[0.40,0.18],[0.55,0.06],[0.70,0.15],[0.85,0.09]].forEach(([sx, sy]) => {
+  [[0.10,0.12],[0.25,0.08],[0.40,0.18],[0.55,0.06],[0.70,0.15],
+   [0.85,0.09],[0.92,0.20],[0.05,0.25],[0.30,0.30],[0.60,0.25],
+   [0.78,0.28],[0.15,0.35]].forEach(([sx, sy]) => {
     ctx.beginPath(); ctx.arc(sx*w, sy*h, 1.5, 0, Math.PI*2); ctx.fill();
   });
 
-  // Moon
   ctx.fillStyle = '#f5e87a';
   ctx.beginPath(); ctx.arc(w*0.82, h*0.22, 18, 0, Math.PI*2); ctx.fill();
   ctx.fillStyle = '#1a4a8a';
   ctx.beginPath(); ctx.arc(w*0.82+8, h*0.22-5, 14, 0, Math.PI*2); ctx.fill();
 
-  // Hills
   ctx.fillStyle = '#0b1f3a';
-  ctx.beginPath();
-  ctx.moveTo(0, h);
+  ctx.beginPath(); ctx.moveTo(0, h);
   ctx.bezierCurveTo(w*0.15,h*0.65,w*0.30,h*0.75,w*0.45,h*0.70);
   ctx.bezierCurveTo(w*0.60,h*0.65,w*0.75,h*0.80,w,h*0.72);
   ctx.lineTo(w,h); ctx.closePath(); ctx.fill();
 })();
 
+// Post image (kept original)
+(function () {
+  const canvas = document.getElementById('postImage1');
+  const wrap = canvas.parentElement;
+  canvas.width = wrap.offsetWidth || 480;
+  canvas.height = Math.round(canvas.width * 0.56);
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  const bg = ctx.createLinearGradient(0, 0, 0, h);
+  bg.addColorStop(0, '#1a1a2e'); bg.addColorStop(1, '#16213e');
+  ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
+  const glow = ctx.createRadialGradient(w*0.5,h*0.4,0,w*0.5,h*0.4,w*0.4);
+  glow.addColorStop(0,'rgba(30,80,180,0.35)'); glow.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle = glow; ctx.fillRect(0,0,w,h);
+  ctx.fillStyle = 'rgba(20,20,35,0.95)';
+  ctx.beginPath(); ctx.ellipse(w*0.5,h*0.75,w*0.22,h*0.35,0,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(w*0.5,h*0.32,w*0.13,0,Math.PI*2); ctx.fill();
+})();
 </script>
 </body>
 </html>
