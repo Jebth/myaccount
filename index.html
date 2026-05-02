@@ -67,22 +67,29 @@
   }
   .banner-wrap canvas { width: 100%; height: 100%; display: block; }
 
-  /* ── Avatar floating over banner ─────────────── */
-  /* Wrapper that bridges banner and card */
-  .avatar-bridge {
+  /* ── Profile card ─────────────────────────────── */
+  .profile-card {
+    background: #fff;
+    padding-bottom: 12px;
     position: relative;
+    border-radius: 18px 18px 0 0;
+    margin-top: -24px;
     z-index: 10;
-    /* Pulls the avatar up so it overlaps the banner */
-    margin-top: -26px;
-    padding: 0 16px;
-    display: flex;
-    align-items: flex-end;
-    gap: 10px;
-    /* Height = avatar half that should be above card */
-    height: 26px;
-    pointer-events: none; /* let clicks pass through to card below */
+    /* Top padding: enough room for avatar half that sits inside card */
+    padding-top: 12px;
   }
-  .avatar-bridge > * { pointer-events: auto; }
+
+  /* ── Avatar + name row inside the card ───────── */
+  .avatar-name-row {
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 12px;
+    /* Pull row up so avatar pokes above the card's rounded top edge */
+    margin-top: -45px;
+    position: relative;
+    z-index: 20;
+  }
 
   .avatar-main {
     width: 92px;
@@ -93,30 +100,14 @@
     flex-shrink: 0;
     background: #c0c0c0;
     box-shadow: 0 2px 8px rgba(0,0,0,0.18);
-    /* Shift avatar up so bottom half sits in card, top half in banner */
-    transform: translateY(-50%);
-    margin-bottom: 0;
   }
   .avatar-main canvas { width: 92px; height: 92px; display: block; }
 
-  /* ── Profile card ─────────────────────────────── */
-  .profile-card {
-    background: #fff;
-    padding-bottom: 12px;
-    position: relative;
-    /* Rounded top corners like the reference */
-    border-radius: 18px 18px 0 0;
-    /* Pull card up to sit under the banner overlap */
-    margin-top: -24px;
-    z-index: 10;
-    /* Top padding to make room for the avatar that overlaps from above */
-    padding-top: 52px;
-  }
-
   .name-meta {
-    padding: 0 16px 6px;
     flex: 1;
     min-width: 0;
+    /* Nudge name/meta down slightly so it aligns to bottom of avatar */
+    padding-top: 46px;
   }
   .profile-name {
     font-size: 20px;
@@ -232,21 +223,19 @@
   <canvas id="bannerCanvas"></canvas>
 </div>
 
-<!-- Avatar floating bridge (overlaps banner and card) -->
-<div class="avatar-bridge">
-  <div class="avatar-main">
-    <canvas id="avatarMain" width="92" height="92"></canvas>
-  </div>
-</div>
-
-<!-- Profile Card (rounded top corners, sits below avatar) -->
+<!-- Profile Card (rounded top corners) -->
 <div class="profile-card">
-  <div class="name-meta">
-    <div class="profile-name">Jeric Austria</div>
-    <div class="profile-meta">
-      <span class="count">2</span><span class="label"> friends</span>
-      &nbsp;·&nbsp;
-      <span class="count">1</span><span class="label"> post</span>
+  <div class="avatar-name-row">
+    <div class="avatar-main">
+      <canvas id="avatarMain" width="92" height="92"></canvas>
+    </div>
+    <div class="name-meta">
+      <div class="profile-name">Jeric Austria</div>
+      <div class="profile-meta">
+        <span class="count">2</span><span class="label"> friends</span>
+        &nbsp;·&nbsp;
+        <span class="count">1</span><span class="label"> post</span>
+      </div>
     </div>
   </div>
 
