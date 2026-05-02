@@ -8,10 +8,11 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background: #f0f2f5;
+    background: #fff;
     max-width: 480px;
     margin: 0 auto;
     min-height: 100vh;
+    overflow-y: auto;
   }
 
   /* Top Nav */
@@ -23,89 +24,85 @@
     width: 100%;
     max-width: 480px;
     z-index: 200;
-    padding: 10px 16px;
+    background: transparent;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    transition: all 0.3s ease;
+    padding: 12px 16px;
+    transition: background 0.25s ease, box-shadow 0.25s ease;
   }
   .top-nav.scrolled {
     background: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.08);
   }
   .nav-arrow svg, .nav-right svg {
+    color: #fff;
     width: 24px;
     height: 24px;
-    color: #fff;
-    transition: color 0.3s;
+    transition: color 0.25s;
   }
   .top-nav.scrolled .nav-arrow svg,
-  .top-nav.scrolled .nav-right svg { color: #1c1e21; }
-
+  .top-nav.scrolled .nav-right svg {
+    color: #1c1e21;
+  }
   .nav-name {
     font-size: 17px;
-    font-weight: 600;
+    font-weight: 700;
     color: #1c1e21;
     opacity: 0;
-    transition: opacity 0.3s;
-    margin-left: 8px;
+    transition: opacity 0.3s ease;
+    margin-left: 10px;
   }
   .top-nav.scrolled .nav-name { opacity: 1; }
 
   /* Banner */
   .banner-wrap {
     position: relative;
-    height: 200px;
+    height: 210px;
     overflow: hidden;
     border-bottom-left-radius: 16px;
     border-bottom-right-radius: 16px;
   }
-  .banner-wrap canvas {
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
+  .banner-wrap canvas { width: 100%; height: 100%; display: block; }
 
   /* Profile Card */
   .profile-card {
     background: #fff;
-    border-radius: 16px;
-    margin-top: -50px;
-    position: relative;
-    z-index: 10;
     padding-bottom: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    position: relative;
+    border-radius: 16px;
+    margin-top: -60px; /* Important for overlap */
   }
 
   .avatar-name-row {
     display: flex;
     align-items: flex-end;
     padding: 0 16px;
-    margin-top: -46px;
+    margin-top: -46px; /* Controls how much avatar overlaps banner */
     gap: 12px;
+    position: relative;
+    z-index: 10;
   }
 
   .avatar-main {
     width: 92px;
     height: 92px;
     border-radius: 50%;
-    border: 5px solid #fff;
+    border: 5px solid #fff; /* Thicker white border */
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   }
 
   .name-meta {
     padding-bottom: 8px;
     flex: 1;
   }
-
   .profile-name {
     font-size: 21px;
     font-weight: 700;
     color: #1c1e21;
   }
-
   .profile-meta {
     font-size: 14px;
     color: #65676b;
@@ -115,72 +112,37 @@
   .action-row {
     display: flex;
     gap: 8px;
-    padding: 12px 16px;
+    padding: 12px 16px 0;
   }
-
   .btn-primary {
-    flex: 1;
-    background: #1877f2;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 10px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    font-size: 15px;
+    flex: 1; background: #1877f2; color: #fff; border: none;
+    border-radius: 8px; padding: 10px; font-size: 15px;
+    font-weight: 600; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
   }
-
   .btn-secondary {
-    flex: 1;
-    background: #e4e6eb;
-    color: #1c1e21;
-    border: none;
-    border-radius: 8px;
-    padding: 10px;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    font-size: 15px;
+    flex: 1; background: #e4e6eb; color: #1c1e21; border: none;
+    border-radius: 8px; padding: 10px; font-size: 15px;
+    font-weight: 600; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
   }
 
   /* Other sections */
-  .section {
-    background: #fff;
-    margin-top: 12px;
-    padding: 16px;
-    border-radius: 12px;
-  }
-
-  .section-title {
-    font-size: 17px;
-    font-weight: 700;
-    margin-bottom: 12px;
-  }
-
-  .detail-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 15px;
-  }
+  .section { background: #fff; padding: 16px; margin-top: 12px; border-radius: 12px; }
+  .section-title { font-size: 17px; font-weight: 700; color: #1c1e21; margin-bottom: 12px; }
 </style>
 </head>
 <body>
 
-<!-- Top Nav -->
+<!-- Fixed Top Nav -->
 <div class="top-nav" id="topNav">
-  <div style="display:flex; align-items:center;">
+  <div style="display: flex; align-items: center;">
     <div class="nav-arrow">
       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
     </div>
     <span class="nav-name">Jeric Austria</span>
   </div>
-  <div class="nav-right" style="display:flex; gap:16px;">
+  <div style="display: flex; gap: 16px;">
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
   </div>
@@ -207,26 +169,28 @@
 
   <div class="action-row">
     <button class="btn-primary">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
       Add friend
     </button>
     <button class="btn-secondary">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
       Message
     </button>
   </div>
 </div>
 
-<!-- Rest of your sections (Personal details, Friends, Posts) can stay the same or be updated similarly with rounded corners -->
-
 <script>
 // Scroll effect
 const topNav = document.getElementById('topNav');
 window.addEventListener('scroll', () => {
-  topNav.classList.toggle('scrolled', window.scrollY > 140);
+  if (window.scrollY > 160) {
+    topNav.classList.add('scrolled');
+  } else {
+    topNav.classList.remove('scrolled');
+  }
 }, { passive: true });
 
-// Abstract Avatar
+// Avatar
 function drawAbstractAvatar(canvas, seed) {
   const ctx = canvas.getContext('2d');
   const w = canvas.width, h = canvas.height;
@@ -236,55 +200,46 @@ function drawAbstractAvatar(canvas, seed) {
   grad.addColorStop(1, `hsl(${(hue + 140) % 360}, 58%, 38%)`);
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, w, h);
-  ctx.fillStyle = 'rgba(255,255,255,0.3)';
+  ctx.fillStyle = 'rgba(255,255,255,0.30)';
   ctx.beginPath();
-  ctx.arc(w * 0.5, h * 0.35, w * 0.19, 0, Math.PI * 2);
+  ctx.arc(w * 0.5, h * 0.34, w * 0.19, 0, Math.PI * 2);
   ctx.fill();
 }
-
-// Draw avatars
 drawAbstractAvatar(document.getElementById('avatarMain'), 5);
 
-// Banner (same as before, just with rounded corners via CSS)
+// Banner
 (function () {
   const canvas = document.getElementById('bannerCanvas');
   canvas.width = 480;
-  canvas.height = 200;
+  canvas.height = 210;
   const ctx = canvas.getContext('2d');
   const w = canvas.width, h = canvas.height;
 
-  // Sky gradient
   const sky = ctx.createLinearGradient(0, 0, 0, h);
   sky.addColorStop(0, '#0f2557');
+  sky.addColorStop(0.6, '#1a4a8a');
   sky.addColorStop(1, '#2e6fc4');
-  ctx.fillStyle = sky;
-  ctx.fillRect(0, 0, w, h);
+  ctx.fillStyle = sky; ctx.fillRect(0, 0, w, h);
 
   // Stars
-  ctx.fillStyle = 'rgba(255,255,255,0.9)';
-  [[0.1,0.15],[0.25,0.08],[0.4,0.2],[0.55,0.07],[0.8,0.18],[0.9,0.12]].forEach(([x,y]) => {
-    ctx.beginPath();
-    ctx.arc(x*w, y*h, 1.8, 0, Math.PI*2);
-    ctx.fill();
+  ctx.fillStyle = 'rgba(255,255,255,0.85)';
+  [[0.10,0.12],[0.25,0.08],[0.40,0.18],[0.55,0.06],[0.70,0.15],[0.85,0.09]].forEach(([sx, sy]) => {
+    ctx.beginPath(); ctx.arc(sx*w, sy*h, 1.5, 0, Math.PI*2); ctx.fill();
   });
 
   // Moon
   ctx.fillStyle = '#f5e87a';
-  ctx.beginPath();
-  ctx.arc(w*0.78, h*0.25, 22, 0, Math.PI*2);
-  ctx.fill();
+  ctx.beginPath(); ctx.arc(w*0.82, h*0.22, 18, 0, Math.PI*2); ctx.fill();
   ctx.fillStyle = '#1a4a8a';
-  ctx.beginPath();
-  ctx.arc(w*0.78 + 8, h*0.25 - 6, 19, 0, Math.PI*2);
-  ctx.fill();
+  ctx.beginPath(); ctx.arc(w*0.82+8, h*0.22-5, 14, 0, Math.PI*2); ctx.fill();
 
   // Hills
   ctx.fillStyle = '#0b1f3a';
   ctx.beginPath();
   ctx.moveTo(0, h);
-  ctx.quadraticCurveTo(w*0.3, h*0.65, w*0.6, h*0.75);
-  ctx.quadraticCurveTo(w*0.85, h*0.6, w, h);
-  ctx.fill();
+  ctx.bezierCurveTo(w*0.15,h*0.65,w*0.30,h*0.75,w*0.45,h*0.70);
+  ctx.bezierCurveTo(w*0.60,h*0.65,w*0.75,h*0.80,w,h*0.72);
+  ctx.lineTo(w,h); ctx.closePath(); ctx.fill();
 })();
 
 </script>
