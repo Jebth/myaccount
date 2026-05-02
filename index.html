@@ -38,16 +38,13 @@
     box-shadow: 0 1px 0 rgba(0,0,0,0.08);
   }
 
-  /* Arrow icon — always white at top, dark when scrolled */
   .nav-arrow svg { color: #fff; width: 22px; height: 22px; transition: color 0.25s; }
   .top-nav.scrolled .nav-arrow svg { color: #1c1e21; }
 
-  /* Right icons same treatment */
   .nav-right { display: flex; gap: 16px; align-items: center; }
   .nav-right svg { color: #fff; width: 22px; height: 22px; transition: color 0.25s; }
   .top-nav.scrolled .nav-right svg { color: #1c1e21; }
 
-  /* Name that fades in beside arrow on scroll */
   .nav-name {
     font-size: 17px;
     font-weight: 700;
@@ -58,7 +55,6 @@
     margin-left: 10px;
   }
   .top-nav.scrolled .nav-name { opacity: 1; }
-
   .nav-left { display: flex; align-items: center; }
 
   /* ── Banner ───────────────────────────────────── */
@@ -67,46 +63,58 @@
     height: 210px;
     overflow: hidden;
     background: #1877f2;
-    /* push content below fixed nav */
     margin-top: 0;
   }
   .banner-wrap canvas { width: 100%; height: 100%; display: block; }
+
+  /* ── Avatar floating over banner ─────────────── */
+  /* Wrapper that bridges banner and card */
+  .avatar-bridge {
+    position: relative;
+    z-index: 10;
+    /* Pulls the avatar up so it overlaps the banner */
+    margin-top: -26px;
+    padding: 0 16px;
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    /* Height = avatar half that should be above card */
+    height: 26px;
+    pointer-events: none; /* let clicks pass through to card below */
+  }
+  .avatar-bridge > * { pointer-events: auto; }
+
+  .avatar-main {
+    width: 92px;
+    height: 92px;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #c0c0c0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    /* Shift avatar up so bottom half sits in card, top half in banner */
+    transform: translateY(-50%);
+    margin-bottom: 0;
+  }
+  .avatar-main canvas { width: 92px; height: 92px; display: block; }
 
   /* ── Profile card ─────────────────────────────── */
   .profile-card {
     background: #fff;
     padding-bottom: 12px;
     position: relative;
-  }
-
-  /* Avatar sitting half-over banner */
-  .avatar-name-row {
-    display: flex;
-    align-items: flex-end;
-    padding: 0 16px;
-    /* pull row up so avatar crosses banner boundary */
-    margin-top: -46px;
-    gap: 10px;
-    position: relative;
+    /* Rounded top corners like the reference */
+    border-radius: 18px 18px 0 0;
+    /* Pull card up to sit under the banner overlap */
+    margin-top: -24px;
     z-index: 10;
+    /* Top padding to make room for the avatar that overlaps from above */
+    padding-top: 52px;
   }
-
-  .avatar-main {
-    width: 92px;
-    height: 92px;
-    border-radius: 50%;
-    /* thick white ring */
-    border: 4px solid #fff;
-    overflow: hidden;
-    flex-shrink: 0;
-    background: #c0c0c0;
-    /* shadow so it pops off banner */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
-  }
-  .avatar-main canvas { width: 92px; height: 92px; display: block; }
 
   .name-meta {
-    padding-bottom: 6px;
+    padding: 0 16px 6px;
     flex: 1;
     min-width: 0;
   }
@@ -154,7 +162,7 @@
   }
   .tab.inactive { background: transparent; color: #65676b; }
 
-  /* ── Sections (no dividers) ───────────────────── */
+  /* ── Sections ─────────────────────────────────── */
   .section { background: #fff; padding: 16px; }
   .section-title { font-size: 17px; font-weight: 700; color: #1c1e21; margin-bottom: 12px; }
 
@@ -219,24 +227,26 @@
   </div>
 </div>
 
-<!-- Banner (starts at very top, behind fixed nav) -->
+<!-- Banner -->
 <div class="banner-wrap">
   <canvas id="bannerCanvas"></canvas>
 </div>
 
-<!-- Profile Card -->
+<!-- Avatar floating bridge (overlaps banner and card) -->
+<div class="avatar-bridge">
+  <div class="avatar-main">
+    <canvas id="avatarMain" width="92" height="92"></canvas>
+  </div>
+</div>
+
+<!-- Profile Card (rounded top corners, sits below avatar) -->
 <div class="profile-card">
-  <div class="avatar-name-row">
-    <div class="avatar-main">
-      <canvas id="avatarMain" width="92" height="92"></canvas>
-    </div>
-    <div class="name-meta">
-      <div class="profile-name">Jeric Austria</div>
-      <div class="profile-meta">
-        <span class="count">2</span><span class="label"> friends</span>
-        &nbsp;·&nbsp;
-        <span class="count">1</span><span class="label"> post</span>
-      </div>
+  <div class="name-meta">
+    <div class="profile-name">Jeric Austria</div>
+    <div class="profile-meta">
+      <span class="count">2</span><span class="label"> friends</span>
+      &nbsp;·&nbsp;
+      <span class="count">1</span><span class="label"> post</span>
     </div>
   </div>
 
@@ -316,7 +326,6 @@
 <script>
 // ── Scroll-triggered nav ─────────────────────────────────────────
 const topNav = document.getElementById('topNav');
-// Trigger once banner is mostly scrolled past (~180px)
 window.addEventListener('scroll', () => {
   if (window.scrollY > 160) {
     topNav.classList.add('scrolled');
